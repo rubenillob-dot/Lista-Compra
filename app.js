@@ -143,8 +143,6 @@ function renderData() {
   renderPagination();
 }
 
-
-
 function renderCards(items) {
   var grid = document.getElementById("products-grid-container");
   if (grid == null) {
@@ -212,11 +210,25 @@ function renderCards(items) {
     html += '</div>';
     
     html += '<div class="card-footer">';
-    html += '  <span class="card-overall-label">Subida Acumulada</span>';
-    html += '  <span class="card-overall-val ' + totalClass + '">' + (totalPct > 0 ? '+' : '') + totalPct.toFixed(1) + '%</span>';
+    html += '  <div class="card-footer-stats">';
+    html += '    <span class="card-overall-label">Subida Acumulada</span>';
+    html += '    <span class="card-overall-val ' + totalClass + '">' + (totalPct > 0 ? '+' : '') + totalPct.toFixed(1) + '%</span>';
+    html += '  </div>';
+    html += '  <button class="btn-view-chart"><i class="fa-solid fa-chart-line"></i> Ver Gráfica</button>';
     html += '</div>';
     
     card.innerHTML = html;
+    
+    (function(p) {
+      var btn = card.querySelector(".btn-view-chart");
+      if (btn != null) {
+        btn.addEventListener("click", function(event) {
+          event.stopPropagation();
+          openModal(p);
+        });
+      }
+    })(product);
+    
     grid.appendChild(card);
   }
 }

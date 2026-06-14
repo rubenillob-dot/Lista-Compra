@@ -640,10 +640,18 @@ body {
   border-top: 1px solid var(--border-color);
   padding-top: 1rem;
   margin-top: auto;
+  gap: 1rem;
+}
+
+.card-footer-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 
 .card-overall-label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
 }
 
@@ -651,6 +659,7 @@ body {
   font-family: var(--font-title);
   font-size: 1.1rem;
   font-weight: 800;
+  line-height: 1;
 }
 
 .card-overall-val.up {
@@ -659,6 +668,30 @@ body {
 
 .card-overall-val.down {
   color: var(--color-accent);
+}
+
+.btn-view-chart {
+  background-color: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: var(--color-primary);
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-smooth);
+}
+
+.btn-view-chart:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #0b111e;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
@@ -1076,8 +1109,8 @@ body {
     padding: 1.2rem 1.5rem;
   }
   
-  .cpi-badge {
-    align-self: flex-start;
+  .header-subtitle {
+    margin-left: 0;
   }
 }
 
@@ -1088,27 +1121,47 @@ body {
     gap: 1rem;
   }
   
-  .search-box {
-    min-width: 100%;
-  }
-  
   .filter-group {
     justify-content: space-between;
   }
-  
-  .view-toggle {
-    display: none; /* Hide toggle on small screens, default to card view */
+}
+
+@media (max-width: 600px) {
+  .main-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+    padding: 1rem 1.2rem;
   }
   
-  /* Force table responsive view to scroll or hide columns */
-  .products-table th:nth-child(4),
-  .products-table td:nth-child(4),
-  .products-table th:nth-child(5),
-  .products-table td:nth-child(5),
-  .products-table th:nth-child(6),
-  .products-table td:nth-child(6),
-  .products-table th:nth-child(7),
-  .products-table td:nth-child(7) {
-    display: none; /* Only show 2021, 2026 and total change on mobile table */
+  .logo-area {
+    gap: 0.8rem;
+  }
+  
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .logo-area h1 {
+    font-size: 1.1rem;
+    letter-spacing: 0.2px;
+  }
+  
+  .header-subtitle {
+    margin-left: 3rem;
+    font-size: 0.78rem;
+  }
+  
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .search-box-header {
+    flex: 1;
+    width: auto;
   }
 }
