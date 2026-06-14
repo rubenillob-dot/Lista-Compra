@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La lista de Antonio (2021-2026) | Evolución Histórica de Precios</title>
+  
+  <!-- Google Fonts: Outfit and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for modern UI -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js for beautiful price trend visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- HEADER -->
+    <header class="main-header">
+      <div class="header-left">
+        <div class="logo-area">
+          <span class="logo-icon"><i class="fa-solid fa-cart-shopping"></i></span>
+          <div>
+            <h1>MERCADONA - PANEL DE CONTROL DE PRECIOS</h1>
+            <p class="header-subtitle">Actualizado a 14 de Junio de 2026</p>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="search-box-header">
+          <i class="fa-solid fa-magnifying-glass search-icon-header"></i>
+          <input type="text" id="search-input" placeholder="Buscar">
+        </div>
+        <div class="user-profile">
+          <i class="fa-solid fa-circle-user"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- GENERAL STATS BANNER -->
+    <section class="stats-overview">
+      <div class="stat-card" id="stat-total-products">
+        <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="stat-info">
+          <h3>190</h3>
+          <p>Productos Analizados</p>
+        </div>
+      </div>
+      <div class="stat-card" id="stat-avg-increase">
+        <div class="stat-icon increase"><i class="fa-solid fa-arrow-trend-up"></i></div>
+        <div class="stat-info">
+          <h3 id="avg-inflation-value">--%</h3>
+          <p>Subida Media Total (2021-2026)</p>
+        </div>
+      </div>
+      <div class="stat-card" id="stat-max-year">
+        <div class="stat-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-info">
+          <h3>2022</h3>
+          <p>Año de Mayor Inflación (+15.7% Alim.)</p>
+        </div>
+      </div>
+      <div class="stat-card" id="stat-max-cat">
+        <div class="stat-icon warning"><i class="fa-solid fa-droplet"></i></div>
+        <div class="stat-info">
+          <h3 id="highest-category-value">Aceites</h3>
+          <p>Categoría Más Afectada</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTROL PANEL -->
+    <section class="control-panel">
+
+      <div class="filter-group">
+        <label for="category-filter"><i class="fa-solid fa-filter"></i> Categoría:</label>
+        <select id="category-filter">
+          <option value="all">Todas las categorías</option>
+          <!-- Categories will be filled dynamically -->
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="sort-select"><i class="fa-solid fa-sort"></i> Ordenar por:</label>
+        <select id="sort-select">
+          <option value="name-asc">Nombre (A - Z)</option>
+          <option value="name-desc">Nombre (Z - A)</option>
+          <option value="price-2021-asc">Precio 2021 (Menor a Mayor)</option>
+          <option value="price-2026-desc">Precio 2026 (Mayor a Menor)</option>
+          <option value="inflation-desc">Mayor Subida Total (%)</option>
+          <option value="inflation-asc">Menor Subida Total / Bajada (%)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="dashboard-content">
+      <h2 class="section-title">Evolución Histórica de Precios por Producto</h2>
+      <!-- DATA CONTAINER: CARD VIEW -->
+      <div id="cards-view-container" class="view-container active">
+        <div class="products-grid" id="products-grid-container">
+          <!-- Will be injected dynamically -->
+        </div>
+      </div>
+
+      <!-- PAGINATION AND RESULTS COUNT -->
+      <div class="table-footer">
+        <div class="results-count" id="results-count-text">
+          Mostrando 0 - 0 de 0 productos
+        </div>
+        <div class="pagination-controls" id="pagination-controls">
+          <!-- Will be injected dynamically -->
+        </div>
+      </div>
+
+    </main>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div class="modal-backdrop" id="product-modal">
+      <div class="modal-content">
+        <button class="modal-close-btn" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+        
+        <div class="modal-header">
+          <span class="modal-category" id="modal-product-category">Lácteos</span>
+          <h2 id="modal-product-name">Nombre del Producto</h2>
+        </div>
+
+        <div class="modal-body-layout">
+          <!-- Left side: Stat cards & details -->
+          <div class="modal-details-side">
+            <div class="modal-stat-grid">
+              <div class="modal-stat-box">
+                <span class="stat-label">Precio Inicial (2021)</span>
+                <span class="stat-value" id="modal-price-2021">0.00 €</span>
+              </div>
+              <div class="modal-stat-box">
+                <span class="stat-label">Precio Final (2026)</span>
+                <span class="stat-value" id="modal-price-2026">0.00 €</span>
+              </div>
+              <div class="modal-stat-box highlight">
+                <span class="stat-label">Variación Total</span>
+                <span class="stat-value" id="modal-total-change">+0.0%</span>
+              </div>
+            </div>
+
+            <div class="yearly-breakdown-list">
+              <h4>Desglose Histórico Año a Año</h4>
+              <ul id="modal-yearly-list">
+                <!-- Injected dynamically -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- Right side: Chart -->
+          <div class="modal-chart-side">
+            <h4>Curva de Evolución Temporal de Precios</h4>
+            <div class="chart-wrapper">
+              <canvas id="productTrendChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer-context">
+          <p><i class="fa-solid fa-circle-info"></i> El incremento porcentual refleja la variación respecto al año anterior. Los datos muestran cómo el pico de costes en el año 2022-2023 por la energía y materias primas impactó el precio final.</p>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+      <p>&copy; 2026 La lista de Antonio. Desarrollado con rigurosidad estadística y análisis de mercado.</p>
+      <p class="data-source">Los precios mostrados son simulaciones realistas basadas en estudios de la OCU, IPC alimentario publicado por el INE (Instituto Nacional de Estadística) y catálogos de Mercadona de libre acceso.</p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
